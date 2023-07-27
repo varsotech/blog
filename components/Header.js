@@ -39,7 +39,7 @@ export default function Header ({ navBarTitle, fullWidth }) {
 
   // Favicon
 
-  const resolveFavicon = fallback => !fallback && dark ? '/favicon.dark.png' : '/favicon.png'
+  const resolveFavicon = fallback => !fallback && dark ? '/favicon.dark.svg' : '/favicon.svg'
   const [favicon, _setFavicon] = useState(resolveFavicon())
   const setFavicon = fallback => _setFavicon(resolveFavicon(fallback))
 
