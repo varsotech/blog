@@ -163,3 +163,19 @@ nav {
 .capture-pointer-events * {
   @apply pointer-events-none;
 }
+
+@keyframes fadeInWidth {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.animate-fadeInWidth {
+  overflow: hidden;
+  animation: fadeInWidth 1.2s; /* You can adjust the animation duration as per your preference */
+
+  white-space: nowrap;
+}
