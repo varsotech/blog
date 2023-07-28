@@ -1,9 +1,9 @@
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { useConfig } from '@/lib/config'
 import { useLocale } from '@/lib/locale'
 import useTheme from '@/lib/theme'
+import StatusLogo from './StatusLogo'
 
 const NavBar = () => {
   const BLOG = useConfig()
@@ -102,15 +102,7 @@ export default function Header ({ navBarTitle, fullWidth }) {
           />
         </svg>
         <div className="flex items-center">
-          <Link href="/" aria-label={BLOG.title}>
-            <Image
-              src={favicon}
-              width={24}
-              height={24}
-              alt={BLOG.title}
-              onError={() => setFavicon(true)}
-            />
-          </Link>
+          <StatusLogo blogTitle={BLOG.title} />
           <HeaderName
             ref={titleRef}
             siteTitle={BLOG.title}
