@@ -20,18 +20,19 @@ const HackerNews = ({ slug }) => {
 
   useEffect(() => {
     async function load() {
-      const userData = await get(child(dbRef, `v0/user/${BLOG.hackerNewsUsername}`));
+      const user = await get(child(dbRef, `v0/user/${BLOG.hackerNewsUsername}`));
       
-      if (!userData.exists()) {
-        console.log("No data available");
+      if (!user.exists()) {
+        console.log("User does not exist");
         setHnPost({});
         return;
       }
-  
-      const submittedPosts = userData.val().submitted
+
+      const userData = user.val()
+      const submittedPosts = userData.submitted
 
       let foundPost = {}
-      for (let index = 0; index < submittedPosts.length; index++) {
+      for (let index = 0; index < submittedPosts?.length; index++) {
         const submittedPostId = submittedPosts[index];
         const fetchedPost = await get(child(dbRef, `v0/item/${submittedPostId}`));
         if (!fetchedPost.exists()) {
