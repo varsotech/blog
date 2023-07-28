@@ -15,7 +15,16 @@ module.exports = {
             value: 'interest-cohort=()'
           }
         ]
-      }
+      },
+      {
+        source: '/feed.xml',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'text/xml',
+          },
+        ],
+      },
     ]
   },
   transpilePackages: ['dayjs']
