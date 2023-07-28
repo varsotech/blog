@@ -39,7 +39,7 @@ const HackerNews = ({ slug }) => {
           continue;
         }
 
-        const fetchedPostData = fetchedPost.val();;
+        const fetchedPostData = fetchedPost.val();
         if (!fetchedPostData.url) {
             continue;
         }
