@@ -1,4 +1,3 @@
-import 'gitalk/dist/gitalk.css'
 import { useEffect, useState } from 'react'
 import { useConfig } from '@/lib/config'
 import TagItem from '@/components/TagItem'
@@ -7,7 +6,7 @@ import { getDatabase, ref, get, child } from "firebase/database";
 import hackerNewsIcon from '../public/hackernews.png';
 
 
-const HackerNews = ({ slug, className }) => {
+const HackerNews = ({ slug }) => {
   const BLOG = useConfig()
   const [ hnPost, setHnPost ] = useState()
 
@@ -21,7 +20,7 @@ const HackerNews = ({ slug, className }) => {
 
   useEffect(() => {
     async function load() {
-      const userData = await get(child(dbRef, `v0/user/jl`));
+      const userData = await get(child(dbRef, `v0/user/${BLOG.hackerNewsUsername}`));
       
       if (!userData.exists()) {
         console.log("No data available");
@@ -59,8 +58,6 @@ const HackerNews = ({ slug, className }) => {
     }
   }, []);
   
-  console.log("hnPost", hnPost);
-
   if (!hnPost?.score) {
     return null;
   }
