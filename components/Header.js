@@ -102,7 +102,7 @@ export default function Header ({ navBarTitle, fullWidth }) {
           />
         </svg>
         <div className="flex items-center">
-          <StatusLogo blogTitle={BLOG.title} />
+          <StatusLogo />
           <HeaderName
             ref={titleRef}
             siteTitle={BLOG.title}
