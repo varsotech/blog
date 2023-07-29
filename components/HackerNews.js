@@ -6,9 +6,9 @@ import { getDatabase, ref, get, child } from "firebase/database";
 import hackerNewsIcon from '../public/hackernews.png';
 
 
-const HackerNews = ({ slug }) => {
-  const BLOG = useConfig()
-  const [ hnPost, setHnPost ] = useState()
+const HackerNews = ({ slug, customItemId }) => {
+  const BLOG = useConfig();
+  const [ hnPost, setHnPost ] = useState();
 
   var config = {
     databaseURL: "https://hacker-news.firebaseio.com",
@@ -19,39 +19,55 @@ const HackerNews = ({ slug }) => {
   const dbRef = ref(getDatabase());
 
   useEffect(() => {
-    async function load() {
-      const user = await get(child(dbRef, `v0/user/${BLOG.hackerNewsUsername}`));
-      
-      if (!user.exists()) {
-        console.log("User does not exist");
-        setHnPost({});
-        return;
+    async function loadPost(itemId) {
+      const fetchedPost = await get(child(dbRef, `v0/item/${itemId}`));
+      if (!fetchedPost.exists()) {
+        return null;
       }
 
-      const userData = user.val()
-      const submittedPosts = userData.submitted
+      return fetchedPost.val()
+    }
 
-      let foundPost = {}
+    async function loadUserPost() {
+      const user = await get(child(dbRef, `v0/user/${BLOG.hackerNewsUsername}`));
+      if (!user.exists()) {
+        console.log("User does not exist");
+        return null;
+      }
+
+      const userData = user.val();
+      const submittedPosts = userData.submitted;
+
+      let foundPost = null;
       for (let index = 0; index < submittedPosts?.length; index++) {
         const submittedPostId = submittedPosts[index];
-        const fetchedPost = await get(child(dbRef, `v0/item/${submittedPostId}`));
-        if (!fetchedPost.exists()) {
+        const fetchedPost = loadPost(submittedPostId);
+        if (!fetchedPost) {
           continue;
         }
 
-        const fetchedPostData = fetchedPost.val();
-        if (!fetchedPostData.url) {
+        if (!fetchedPost.url) {
             continue;
         }
 
-        if (!fetchedPostData.url.startsWith(`${BLOG.link}/${slug}`)) {
+        if (!fetchedPost.url.startsWith(`${BLOG.link}/${slug}`)) {
             continue;
         }
 
-        foundPost = fetchedPostData;
+        foundPost = fetchedPost;
       }
 
-      setHnPost(foundPost);
+      return foundPost;
+    }
+
+    async function load() {
+      if (customItemId) {
+        const post = await loadPost(customItemId);
+        setHnPost(post);
+      } else {
+        const post = await loadUserPost();
+        setHnPost(post);
+      }
     }
 
     if (hnPost === undefined) {

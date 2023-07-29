@@ -58,7 +58,7 @@ export default function Post (props) {
             {post.tags.map(tag => (
               <TagItem key={tag} tag={tag} />
             ))}
-            <HackerNews slug={post.slug} />
+            <HackerNews slug={post.slug} customItemId={post.hackerNewsItemId} />
           </div>
         </nav>
       )}
