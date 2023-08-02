@@ -57,7 +57,7 @@ const BLOG = {
     }
   },
   hackerNewsUsername: "varsotech",
-  discordStatusServerUrl: "http://imleah.dev:1337",
+  discordStatusServerUrl: "https://status.imleah.dev",
   isProd: process.env.VERCEL_ENV === 'production' // distinguish between development and production environment (ref: https://vercel.com/docs/environment-variables#system-environment-variables)
 }
 // export default BLOG
